@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template, request, url_for, redirect, Markup, Response, send_file, send_from_directory, make_response, jsonify
 import os
 import json
-import json
+import ast
+import traceback
 
 app = Flask(__name__)
 
@@ -20,14 +21,18 @@ def goToReport(reportNum):
 	else:
 		try:
 			dictionaryFile = json.load(open("{}.json".format(reportNum)))
-			dictionaryFile = json.loads(str(dictionaryFile))
+			try:
+				e = json.loads(str(dictionaryFile))
+				dictionaryFile = e
+			except:
+				pass
 			print dictionaryFile
 			levensh = dictionaryFile["Levenshtein"]
 			print levensh
 			#return jsonify(dictionaryFile)
-			return render_template("report.html", DATA=dictionaryFile)
+			return render_template("report.html", Data=dictionaryFile, levMax=1000-dictionaryFile['Levenshtein'])
 		except Exception as exp:
-			print exp
+			print traceback.print_exc()
 			return "<h1>Report for {} not generated</h1>".format(reportNum)
 
 

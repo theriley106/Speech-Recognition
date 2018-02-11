@@ -29,7 +29,7 @@ def levenshtein(s1, s2):
 
     return previous_row[-1]
 
-def createResponse(text, endSession=True, sessionCount=0, idNum="0", question=" ", countDict={"NumOfVals": 0, "MN": 0, "Stutter": 0, "WP": 0, "Levenshtein": 0, "Partial": 0}):
+def createResponse(text, endSession=True, sessionCount=0, idNum="0", question=" ", countDict={"AllWords": [], "AllSentences": [], "AllLev": [], "NumOfVals": 0, "MN": 0, "Stutter": 0, "WP": 0, "Levenshtein": 0, "Partial": 0}):
 	print countDict
 	return {
 			"version": "1.0",
@@ -125,11 +125,12 @@ def getAllSlots(intent):
 def getAllMisTypes(sentence, actualSentence, countDict=None):
 	actualSentence = actualSentence.split(" ")
 	if countDict == None:
-		countDict = {"NumOfVals": 0, "MN": 0, "Stutter": 0, "WP": 0, "Levenshtein": 0, "Partial": 0}
+		countDict = {"AllWords": [], "AllSentences": [], "AllLev": [], "NumOfVals": 0, "MN": 0, "Stutter": 0, "WP": 0, "Levenshtein": 0, "Partial": 0}
 	countDict["NumOfVals"] += 1
 	for word in sentence.split(" "):
 		try:
 			for val in DATABASE[word]:
+				countDict["AllWord"].append(word)
 				if val == "WP":
 					countDict["WP"] += 1
 				if val == "MN":
@@ -139,9 +140,12 @@ def getAllMisTypes(sentence, actualSentence, countDict=None):
 				if val == "Partial":
 					if str(word) not in actualSentence:
 						countDict["Partial"] += 1
+
 		except:
 			pass
 	countDict['Levenshtein'] += levenshtein(sentence, actualSentence)
+	countDict["AllSentence"].append(actualSentence)
+	countDict["AllLev"].append(countDict["Levenshtein"])
 	return countDict
 
 
