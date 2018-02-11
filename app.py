@@ -19,10 +19,13 @@ def goToReport(reportNum):
 		    json.dump(request.data, outfile)
 	else:
 		try:
-			return jsonify(json.load(open("{}.json".format(reportNum))))
+			dictionaryFile = json.load(open("{}.json".format(reportNum)))
+			levensh = dictionaryFile["Levenshtein"]
+			print levensh
+			return jsonify(dictionaryFile)
 		except Exception as exp:
 			print exp
-			return "<h1>Report for {}</h1>".format(reportNum)
+			return "<h1>Report for {} not generated</h1>".format(reportNum)
 
 
 @app.route("/", methods=["POST"])
