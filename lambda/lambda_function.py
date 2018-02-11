@@ -145,7 +145,7 @@ def getAllMisTypes(sentence, actualSentence, countDict=None):
 			pass
 	countDict['Levenshtein'] += levenshtein(sentence, actualSentence)
 	countDict["AllSentences"].append(' '.join(actualSentence))
-	countDict["AllLev"].append(countDict["Levenshtein"])
+	countDict["AllLev"].append(levenshtein(sentence, actualSentence))
 	return countDict
 
 
