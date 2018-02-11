@@ -20,6 +20,8 @@ def goToReport(reportNum):
 	else:
 		try:
 			dictionaryFile = json.load(open("{}.json".format(reportNum)))
+
+			dictionaryFile = json.loads(str(dictionaryFile))
 			print dictionaryFile
 			levensh = dictionaryFile["Levenshtein"]
 			print levensh
