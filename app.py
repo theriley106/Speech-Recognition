@@ -20,12 +20,12 @@ def goToReport(reportNum):
 	else:
 		try:
 			dictionaryFile = json.load(open("{}.json".format(reportNum)))
-
 			dictionaryFile = json.loads(str(dictionaryFile))
 			print dictionaryFile
 			levensh = dictionaryFile["Levenshtein"]
 			print levensh
-			return jsonify(dictionaryFile)
+			#return jsonify(dictionaryFile)
+			return render_template("report.html", DATA=dictionaryFile)
 		except Exception as exp:
 			print exp
 			return "<h1>Report for {} not generated</h1>".format(reportNum)
@@ -38,6 +38,7 @@ def getReport():
 	for key, quant in request.form.items():
 		print("{} = {}".format(key, quant))
 	return redirect(url_for('goToReport', reportNum=quant))
+
 
 
 if __name__ == "__main__":
