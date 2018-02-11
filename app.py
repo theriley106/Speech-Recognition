@@ -13,8 +13,7 @@ def index():
 @app.route("/report/<reportNum>", methods=["GET", "POST"])
 def goToReport(reportNum):
 	if request.method == 'POST':
-		print str(request.data)
-		#print str(json.loads(request.data))
+		print str(json.loads(request.data))
 	return "<h1>Report for {}</h1>".format(reportNum)
 
 
