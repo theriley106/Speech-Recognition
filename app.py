@@ -32,9 +32,9 @@ def goToReport(reportNum):
 			#return jsonify(dictionaryFile)
 			if levensh > 75:
 				Diagnosis = "General Fluency/Vocal Disorder"
-			elif dictionaryFile["Stutter"] > 2:
+			elif dictionaryFile["Stutter"] > 5:
 				Diagnosis = "Stuttering Speech Disorder"
-			elif dictionaryFile["Partial"] > 1:
+			elif dictionaryFile["Partial"] > 5:
 				Diagnosis = "Tangential Speech Disorder"
 			else:
 				Diagnosis = "No Speech Developmental Challenges Detected"
