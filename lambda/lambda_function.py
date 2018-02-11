@@ -192,7 +192,7 @@ def on_intent(intent_request, session):
 				return createResponse("Repeat the following sentence. {}".format(question), False, sessionCount=count, question=question, countDict=results, idNum=idNum)
 			else:
 				countDict=results
-				requests.post("https://reportgeneration.herokuapp.com/report/{}".format(idNum), data=str(results))
+				requests.post("https://reportgeneration.herokuapp.com/report/{}".format(idNum), data=str(json.dumps(results)))
 				print("Request made")
 				return createResponse("Your diagnosis has been generated...  Your Report Identification number: {}".format(' '.join(list(idNum))), True, sessionCount=count, question=question, countDict=results, idNum=idNum)
 	elif intent_name == 'aboutDev':
