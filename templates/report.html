@@ -1,4 +1,22 @@
 <center><h1>Report #{{ reportNum }}</h1></center>
 
+<center>
+<h2>Diagnosis: {{ Diagnosis }}</h2>
+<h2>Lev Score: {{ Data.Levenshtein }}</h2>
+<h2>Stutter Count: {{ Data.Stutter }}</h2>
+<h2>Incomplete/Partial Word Count: {{ Data.Partial }}</h2>
+<h2>M -> N Score: {{ Data.MN }}</h2>
+<h2>TH -> W Score: {{ Data.WP }}</h2>
+</center>
+
+<center>
+{% for sentence in allSent %}
+<h3>{{ sentence }}</h3>
+{% endfor %}
+</center>
+
+
+
+
 {% include 'piChart.html' %}
 {% include 'barGraph.html' %}
