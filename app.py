@@ -30,7 +30,15 @@ def goToReport(reportNum):
 			levensh = dictionaryFile["Levenshtein"]
 			print levensh
 			#return jsonify(dictionaryFile)
-			return render_template("report.html", Diagnosis="No Speech Issues", levRange=range(1,len(dictionaryFile["AllLev"])+1), allSent=dictionaryFile["AllSentences"], LEVData=dictionaryFile["AllLev"], reportNum=reportNum, Data=dictionaryFile, levMax=1000-dictionaryFile['Levenshtein'])
+			if levensh > 75:
+				Diagnosis = "General Fluency/Vocal Disorder"
+			elif dictionaryFile["Stutter"] > 2:
+				Diagnosis = "Stuttering Speech Disorder"
+			elif dictionaryFile["Partial"] > 1:
+				Diagnosis = "Tangential Speech Disorder"
+			else:
+				Diagnosis = "No Speech Developmental Challenges Detected"
+			return render_template("report.html", Diagnosis=Diagnosis, levRange=range(1,len(dictionaryFile["AllLev"])+1), allSent=dictionaryFile["AllSentences"], LEVData=dictionaryFile["AllLev"], reportNum=reportNum, Data=dictionaryFile, levMax=1000-dictionaryFile['Levenshtein'])
 		except Exception as exp:
 			print traceback.print_exc()
 			return "<h1>Report for {} not generated</h1>".format(reportNum)
