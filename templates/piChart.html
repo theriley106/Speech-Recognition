@@ -19,8 +19,8 @@ var chart = new CanvasJS.Chart("chartContainer", {
     indexLabel: "{label} - #percent%",
     toolTipContent: "<b>{label}:</b> {y} (#percent%)",
     dataPoints: [
-      { y: {{ levMax }}, label: "Misspoken Words" },
-      { y: {{ Data.Levenshtein }}, label: "Correct Words" },
+      { y: {{ levMax }}, label: "Correct Words" },
+      { y: {{ Data.Levenshtein }}, label: "Misspoken Words" },
     ]
   }]
 });
