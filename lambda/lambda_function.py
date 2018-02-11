@@ -29,11 +29,11 @@ def levenshtein(s1, s2):
 
     return previous_row[-1]
 
-def createResponse(text, endSession=True, sessionCount=0, question=" ", countDict={"NumOfVals": 0, "MN": 0, "Stutter": 0, "WP": 0, "Levenshtein": 0, "Partial": 0}):
+def createResponse(text, endSession=True, sessionCount=0, idNum="0", question=" ", countDict={"NumOfVals": 0, "MN": 0, "Stutter": 0, "WP": 0, "Levenshtein": 0, "Partial": 0}):
 	print countDict
 	return {
 			"version": "1.0",
-			"sessionAttributes": {'counter': sessionCount, "Question": str(question), "countDict": countDict},
+			"sessionAttributes": {"ID": idNum, 'counter': sessionCount, "Question": str(question), "countDict": countDict},
 			"response": {
 			"outputSpeech": {
 			"type": "PlainText",
@@ -158,7 +158,8 @@ def on_intent(intent_request, session):
 	if intent_name == "startDiagnosis":
 		while len(question) < 3:
 			question = random.choice(sentences)
-		return createResponse("Repeat the following sentence. {}".format(question), False, question=question)
+		idNum = str(random.randint(100,999))
+		return createResponse("Repeat the following sentence. {}".format(question), False, idNum=idNum, question=question)
 	elif intent_name == "readSentence":
 		try:
 			e = session['attributes']['counter']
@@ -169,6 +170,10 @@ def on_intent(intent_request, session):
 			question = session['attributes']['question']
 		except:
 			question = ""
+		try:
+			idNum = session['attributes']['ID']
+		except:
+			idNum = '0'
 		print getAllSlots(intent_request)
 		if count > 3:
 			return createResponse("End session", True, sessionCount=count)
@@ -184,10 +189,12 @@ def on_intent(intent_request, session):
 					print traceback.print_exc()
 					value = 0
 			if count != 3:
-				return createResponse("Stutter: {}. Partial: {}. M to P: {}. T H to W: {}. Levenshtein: {} . Repeat the following sentence. {}".format(results["Stutter"], results["Partial"], results["MN"], results["WP"], value, question), False, sessionCount=count, question=question, countDict=results)
+				return createResponse("Repeat the following sentence. {}".format(question), False, sessionCount=count, question=question, countDict=results, idNum=idNum)
 			else:
 				countDict=results
-				return createResponse("Stutter: {}. Partial: {}. M to P: {}. T H to W: {}. Levenshtein: {} . Generating Report...".format(results["Stutter"], results["Partial"], results["MN"], results["WP"], value), True, sessionCount=count, question=question, countDict=results)
+				requests.post("https://reportgeneration.herokuapp.com/report/{}".format(idNum), data=results)
+				print("Request made")
+				return createResponse("Your diagnosis has been generated...  Your Report Identification number: {}".format(' '.join(list(idNum))), True, sessionCount=count, question=question, countDict=results, idNum=idNum)
 	elif intent_name == 'aboutDev':
 		return alexaHelper.devInfo()
 	elif intent_name == "AMAZON.HelpIntent":
