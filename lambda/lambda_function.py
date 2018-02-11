@@ -130,7 +130,7 @@ def getAllMisTypes(sentence, actualSentence, countDict=None):
 	for word in sentence.split(" "):
 		try:
 			for val in DATABASE[word]:
-				countDict["AllWord"].append(word)
+				countDict["AllWords"].append(word)
 				if val == "WP":
 					countDict["WP"] += 1
 				if val == "MN":
@@ -144,7 +144,7 @@ def getAllMisTypes(sentence, actualSentence, countDict=None):
 		except:
 			pass
 	countDict['Levenshtein'] += levenshtein(sentence, actualSentence)
-	countDict["AllSentence"].append(actualSentence)
+	countDict["AllSentences"].append(' '.join(actualSentence))
 	countDict["AllLev"].append(countDict["Levenshtein"])
 	return countDict
 

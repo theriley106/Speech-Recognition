@@ -30,7 +30,7 @@ def goToReport(reportNum):
 			levensh = dictionaryFile["Levenshtein"]
 			print levensh
 			#return jsonify(dictionaryFile)
-			return render_template("report.html", Data=dictionaryFile, levMax=1000-dictionaryFile['Levenshtein'])
+			return render_template("report.html", levRange=range(1,len(dictionaryFile["AllLev"])+1), LEVData=dictionaryFile["AllLev"], reportNum=reportNum, Data=dictionaryFile, levMax=1000-dictionaryFile['Levenshtein'])
 		except Exception as exp:
 			print traceback.print_exc()
 			return "<h1>Report for {} not generated</h1>".format(reportNum)
