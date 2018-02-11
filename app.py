@@ -19,8 +19,9 @@ def goToReport(reportNum):
 		    json.dump(request.data, outfile)
 	else:
 		try:
-			return flask.jsonify(**json.load(open("{}.json".format(reportNum))))
-		except:
+			return jsonify(json.load(open("{}.json".format(reportNum))))
+		except Exception as exp:
+			print exp
 			return "<h1>Report for {}</h1>".format(reportNum)
 
 
