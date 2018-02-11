@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, request, url_for, redirect, Markup, Response, send_file, send_from_directory, make_response, jsonify
 import os
 import json
+import json
+
 app = Flask(__name__)
 
 #def createReport(jsonFileContainingData):
@@ -13,8 +15,13 @@ def index():
 @app.route("/report/<reportNum>", methods=["GET", "POST"])
 def goToReport(reportNum):
 	if request.method == 'POST':
-		print str(json.loads(request.data))
-	return "<h1>Report for {}</h1>".format(reportNum)
+		with open('{}.json'.format(reportNum), 'w') as outfile:
+		    json.dump(request.data, outfile)
+	else:
+		try:
+			return flask.jsonify(**json.load(open("{}.json".format(reportNum))))
+		except:
+			return "<h1>Report for {}</h1>".format(reportNum)
 
 
 @app.route("/", methods=["POST"])
