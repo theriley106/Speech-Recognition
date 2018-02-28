@@ -6,7 +6,7 @@ import string
 import requests
 sentences = open("listOfSentences.txt").read().split("\n")
 SKILLNAME = "Alexa Speech Diagnostic Tool"
-INITIALSPEECH = "Thank you for checking out the alexa speech diagnostic tool.  We can detect early onset childhood speech disorders"
+INITIALSPEECH = "Alexa Speech Therapy and diagnostic tool.  We can detect early onset childhood speech disorders"
 REPEATSPEECH = INITIALSPEECH
 DATABASE = json.load(open("Dataset.json"))
 def levenshtein(s1, s2):
